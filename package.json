@@ -1,0 +1,24 @@
+{
+  "name": "lyrid-js-sdk",
+  "version": "1.0.0",
+  "description": "A NPM package that consume Lyrid functions.",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darian68/lyrid-js-sdk.git"
+  },
+  "keywords": [
+    "npm",
+    "node",
+    "lyrid",
+    "javascript"],
+  "author": "Darian UNG",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/darian68/lyrid-js-sdk/issues"
+  },
+  "homepage": "https://github.com/darian68/lyrid-js-sdk#readme"
+}
