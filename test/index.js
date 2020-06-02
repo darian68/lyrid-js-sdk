@@ -1,9 +1,6 @@
-import assert from 'assert';
+import * as assert from 'assert';
+import Lyrid from '../src/index';
 
-describe('Array', () => {
-  describe('#indexOf()', () => {
-    it('should return -1 when the value is not present', () => {
-      assert.equal([1, 2, 3].indexOf(4), -1);
-    });
-  });
-});
+const lc = new Lyrid('RsliNzH8xQrdVIWJqOwd', 'bJq0YT7CRNKz4p0xh8rnQJB4VfYNwINEI3zlFJ67V25VGd8eXZ');
+//const response = lc.getToken();
+lc.getApps();
