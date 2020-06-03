@@ -13,44 +13,97 @@ class Lyrid {
   
   async makeRequest(requestEndpoint, requestOptions) {
     const response = await fetch(requestEndpoint, requestOptions);
-    return await response.json();
+    const status = await response.status;
+    if (status >= 200 && status < 300) {
+        return await response.json();
+    } else {
+        return await response.text();
+    }
   }
   async execute(id, framework='', inputs='') {
     
   }
 
   async getToken() {
+    let token = this.token;
+    if (!token) {
+      token = await this.refreshToken();
+    }
+    return token;
+  }
+  
+  async refreshToken() {
+    let token = '';
     const requestOptions = {
       method: 'POST',
       headers: new Headers().append("Content-Type", "application/json"),
       body: JSON.stringify({"key": this.key,"secret": this.secret}),
       redirect: 'follow'
     };
-    const response = await this.makeRequest("https://api.lyrid.io/auth", requestOptions);
-    response.then(data => {
-      this.token = data.token;
-    });
-  }  
+    const response = await fetch("https://api.lyrid.io/auth", requestOptions);
+    const status = await response.status;
+    if (status >= 200 && status < 300) {
+      const json = await response.json();
+      this.token = await json.token;
+      token = this.token;
+    }
+    return token;
+  }
   
-  ///api/serverless/app/get
-  getApps() {
+  // /api/serverless/app/get
+  async getApps() {
+    console.log("Get apps");
+    const token = await this.getToken();
     const lyridHeaders = new Headers();
     lyridHeaders.append("Content-Type", "text/plain");
-    lyridHeaders.append("Authorization", "Bearer " + "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1ETkJPVGd6UTBNMVFUQTBNRGMzTlRjeE1EZzJNRVkwT0RVNFF6TkdNVGsxUTBKRVFURkNNQSJ9.eyJpc3MiOiJodHRwczovL2x5cmlkLmF1dGgwLmNvbS8iLCJzdWIiOiJRU3BBTzZ4R1h6Mnp3RTA4UXM4cndxT1F4VEpoeW9DNEBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9seXJpZC5pby9hY2Nlc3MvYXV0aCIsImlhdCI6MTU5MTA4NzU2NiwiZXhwIjoxNTkxMTczOTY2LCJhenAiOiJRU3BBTzZ4R1h6Mnp3RTA4UXM4cndxT1F4VEpoeW9DNCIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.cVvmFFO0VtaeYFFV7R_XROq8iFGFb4alzKk5dawU97b1_diqlAc3-WrjHjzH0BTKvhM24IzksT7pPunNv6FyQiAGJVWvF8lrks9NoDS66nyu09wAYv5EdiMW2uo3BY2ZGaXg0o56pachlcjYZven7fEA4F1CN46eNH-gO28IUDClKoS41xvW2xCFPTcPafQGQdxrI98vjxzr095DSN322pWtnyv3lRa_XZlxqKujh9KYaeoEJWvJ1R-ZIO3KPvCwd8CW8vTbIGBiPw0Ondjt9uz8sZb6o8g9tbkkxh-wny6LXNKMVamsfTeCBdJKzSPDpDzODNpO8E1bDkro2i3Z3w");
+    lyridHeaders.append("Authorization", "Bearer " + token);
     const requestEndpoint = lyridEndpoint + 'api/serverless/app/get';
     const requestOptions = {
       method: 'GET',
       headers: lyridHeaders,
       redirect: 'follow'
     };
-    const response = this.makeRequest(requestEndpoint, requestOptions);
-    response.then(data => {
-      console.log(data);
-    });
+    const response = await fetch(requestEndpoint, requestOptions);
+    console.log(response);
+    const status = await response.status;
+    console.log(status);
+    if (status >= 200 && status < 300) {
+      return await response.json();
+    } else {
+      const resBody = await response.text();
+      if (resBody == "Expired authorization token") {
+        const token = await this.refreshToken();
+        return await this.getApps();
+      }
+    }
   }
 
+  // /api/serverless/app/get/{appid}
   async getModules(appId) {
-    
+    console.log("Get Modules");
+    const token = await this.getToken();
+    const lyridHeaders = new Headers();
+    lyridHeaders.append("Content-Type", "text/plain");
+    lyridHeaders.append("Authorization", "Bearer " + token);
+    const requestEndpoint = lyridEndpoint + 'api/serverless/app/get/' + appId;
+    const requestOptions = {
+      method: 'GET',
+      headers: lyridHeaders,
+      redirect: 'follow'
+    };
+    const response = await fetch(requestEndpoint, requestOptions);
+    console.log(response);
+    const status = await response.status;
+    console.log(status);
+    if (status >= 200 && status < 300) {
+      return await response.json();
+    } else {
+      const resBody = await response.text();
+      if (resBody == "Expired authorization token") {
+        const token = await this.refreshToken();
+        return await this.getModules(appId);
+      }
+    }
   }
   
   async getRevisions(appId, moduleId) {
