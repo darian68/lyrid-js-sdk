@@ -1,8 +1,8 @@
 {
-  "name": "lyrid-js-sdk",
-  "version": "1.0.0",
+  "name": "lyrid-js-sdk-dev",
+  "version": "1.0.1",
   "description": "A NPM package that consume Lyrid functions.",
-  "main": "build/index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "babel ./src -d ./lib",
     "lint": "eslint ./src",
