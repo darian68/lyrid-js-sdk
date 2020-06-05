@@ -18,6 +18,7 @@ class Lyrid {
       lyridHeaders.append("Authorization", "Bearer " + token);
       const requestOptions = {
         method: 'GET',
+        mode: "cors",
         headers: lyridHeaders,
         redirect: 'follow'
       };
@@ -73,6 +74,8 @@ class Lyrid {
     lyridHeaders.append("Authorization", "Bearer " + token);
     const requestOptions = {
       method: 'POST',
+      mode: "same-origin",
+      credentials: "same-origin",
       headers: lyridHeaders,
       body: inputs,
       redirect: 'follow'
