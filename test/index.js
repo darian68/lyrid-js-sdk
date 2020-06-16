@@ -8,6 +8,7 @@ const lc = new Lyrid('RsliNzH8xQrdVIWJqOwd', 'bJq0YT7CRNKz4p0xh8rnQJB4VfYNwINEI3
 lc.getApps().then(data =>{
   console.log(data)
 });
+
 lc.getRevisions('56edc263-b0c5-4672-b6cf-ca45a5c4e033','3ae6b878-30f3-4729-aa92-b1bfd5c376a9').then(data =>{
   console.log(data)
 });*/

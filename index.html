@@ -1,0 +1,25 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Lyrid SDK Sample</title>
+  <meta name="description" content="Lyrid SDK Sample">
+  <meta name="author" content="Darian">
+
+</head>
+
+<body>
+    <! build: browserify src/index.js --s Lyrid > lyrid.js -->
+  <script src="./lyrid.js"></script>
+  <script>
+    const lc = new Lyrid('RsliNzH8xQrdVIWJqOwd', 'bJq0YT7CRNKz4p0xh8rnQJB4VfYNwINEI3zlFJ67V25VGd8eXZ');
+    lc.getApps().then(data =>{
+      console.log(data);
+    }, () =>{
+      console.log("Can't get list apps");
+    });
+  </script>
+</body>
+</html>

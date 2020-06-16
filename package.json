@@ -4,7 +4,7 @@
   "description": "A NPM package that consume Lyrid functions.",
   "main": "src/index.js",
   "scripts": {
-    "build": "babel ./src -d ./lib",
+    "build": "babel ./src -d ./lib && browserify src/index.js --s Lyrid > lyrid.js",
     "lint": "eslint ./src",
     "test": "nyc mocha --require babel-core/register",
     "prepublishOnly": "npm run build"
